@@ -4,10 +4,16 @@ using UnityEngine.InputSystem;
 public class UFOController : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float gamepadMoveSpeed = 5f;   // Speed when using gamepad (with smooth acceleration)
-    public float mouseMoveSpeed = 10f;    // Immediate speed when using the mouse
-    public float fixedY = 2f;
-    public float accelerationTime = 0.2f; // Time to reach full speed (for gamepad input)
+    public float gamepadMoveSpeed = 5f;    // Speed when using gamepad (with smooth acceleration)
+    public float mouseMoveSpeed = 10f;     // Immediate speed when using the mouse
+    public float fixedY = 2f;              // Fixed height of the UFO
+    public float accelerationTime = 0.2f;  // Smoothing time for gamepad input
+
+    [Header("Circular Island Settings")]
+    [Tooltip("Radius of the circular island (in world units).")]
+    public float islandRadius = 15f;
+    [Tooltip("Center of the circular island in world space.")]
+    public Vector3 islandCenter = Vector3.zero;
 
     [Header("Beam Settings")]
     public int beamSegments = 20;
@@ -18,14 +24,14 @@ public class UFOController : MonoBehaviour
     private UFOControls controls;
     private Vector2 moveInput;
 
-    // Fields for smoothing movement (when using gamepad)
+    // For smoothing movement (when using gamepad)
     private Vector3 currentVelocity = Vector3.zero;
     private Vector3 velocitySmooth = Vector3.zero;
 
-    // Flag to determine if the current input comes from mouse.
+    // Flag to determine if input is coming from a Mouse.
     private bool usingMouse;
 
-    // Beam GameObject and components.
+    // Beam GameObject and its components.
     private GameObject beamObject;
     private MeshFilter beamFilter;
     private MeshRenderer beamRenderer;
@@ -38,7 +44,6 @@ public class UFOController : MonoBehaviour
         controls.Player.Move.performed += ctx =>
         {
             moveInput = ctx.ReadValue<Vector2>();
-            // Check whether the input came from a Mouse.
             usingMouse = ctx.control.device is Mouse;
         };
         controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
@@ -64,13 +69,11 @@ public class UFOController : MonoBehaviour
 
     void Update()
     {
-        // Select the movement speed based on the input device.
+        // Determine the movement speed based on the input device.
         float moveSpeedToUse = usingMouse ? mouseMoveSpeed : gamepadMoveSpeed;
-
-        // Calculate the target velocity.
         Vector3 targetVelocity = new Vector3(moveInput.x, 0, moveInput.y) * moveSpeedToUse;
 
-        // Use immediate response for mouse input; apply smooth acceleration for gamepad.
+        // For mouse input, apply immediate movement; for gamepad, smooth acceleration/deceleration.
         if (usingMouse)
         {
             currentVelocity = targetVelocity;
@@ -80,32 +83,44 @@ public class UFOController : MonoBehaviour
             currentVelocity = Vector3.SmoothDamp(currentVelocity, targetVelocity, ref velocitySmooth, accelerationTime);
         }
 
+        // Calculate the tentative new position.
         Vector3 delta = currentVelocity * Time.deltaTime;
         Vector3 nextPos = transform.position + delta;
-
-        // Confine the UFO to a 25x25 plane (assuming the plane is centered at the origin).
-        float halfExtent = 12.5f;
-        nextPos.x = Mathf.Clamp(nextPos.x, -halfExtent, halfExtent);
-        nextPos.z = Mathf.Clamp(nextPos.z, -halfExtent, halfExtent);
         nextPos.y = fixedY;
 
+        // Clamp the UFO's horizontal (X, Z) position to within a circle of islandRadius around islandCenter.
+        Vector3 offset = nextPos - islandCenter;       // Offset from the island center.
+        Vector2 offsetXZ = new Vector2(offset.x, offset.z); // Project to XZ plane.
+        if (offsetXZ.magnitude > islandRadius)
+        {
+            offsetXZ = offsetXZ.normalized * islandRadius;
+            nextPos.x = islandCenter.x + offsetXZ.x;
+            nextPos.z = islandCenter.z + offsetXZ.y;
+        }
+
         transform.position = nextPos;
+
+        // Update the BeamMagnet's ufoSpeed if the beam is active.
+        if (beamObject != null && beamObject.activeSelf)
+        {
+            BeamMagnet magnet = beamObject.GetComponent<BeamMagnet>();
+            if (magnet != null)
+            {
+                magnet.ufoSpeed = currentVelocity.magnitude;
+            }
+        }
     }
 
     void ActivateBeam()
     {
         if (beamObject != null)
-        {
             beamObject.SetActive(true);
-        }
     }
 
     void DeactivateBeam()
     {
         if (beamObject != null)
-        {
             beamObject.SetActive(false);
-        }
     }
 
     void CreateBeam()
@@ -120,6 +135,13 @@ public class UFOController : MonoBehaviour
 
         beamFilter.mesh = GenerateBeamMesh();
         beamRenderer.material = CreateBeamMaterial();
+
+        MeshCollider meshCollider = beamObject.AddComponent<MeshCollider>();
+        meshCollider.sharedMesh = beamFilter.mesh;
+        meshCollider.convex = true;
+        meshCollider.isTrigger = true;
+
+        beamObject.AddComponent<BeamMagnet>();
     }
 
     Mesh GenerateBeamMesh()
@@ -128,9 +150,7 @@ public class UFOController : MonoBehaviour
         Vector3[] vertices = new Vector3[beamSegments + 1];
         int[] triangles = new int[beamSegments * 3];
 
-        // The apex of the inverted cone at the UFO's origin.
         vertices[0] = Vector3.zero;
-        // Calculate the radius at the base from the beam angle.
         float baseRadius = beamLength * Mathf.Tan(beamAngle * Mathf.Deg2Rad);
         for (int i = 0; i < beamSegments; i++)
         {
