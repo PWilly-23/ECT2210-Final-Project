@@ -8,7 +8,7 @@ public class BeamMagnet : MonoBehaviour
 {
     [Header("Magnet Settings")]
     [Tooltip("The force pulling cows toward the beam’s center.")]
-    public float pullForce = 17f;
+    public float pullForce = 35f;
     [Tooltip("If the UFO's speed exceeds this threshold, the pull force is reduced, making it easier for cows to be dropped.")]
     public float dropSpeedThreshold = 16f;
     [Tooltip("The radius within which the pull force is applied (for custom logic, if needed).")]
