@@ -71,6 +71,15 @@ public partial class @UFOControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Mode"",
+                    ""type"": ""Button"",
+                    ""id"": ""32854d22-66da-4310-806e-6e2c492ca985"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,7 +141,7 @@ public partial class @UFOControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""43b6db9c-f62d-40cb-bb3e-755868589f36"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -227,6 +236,28 @@ public partial class @UFOControls: IInputActionCollection2, IDisposable
                     ""action"": ""Place"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0d9b3bae-0233-49ce-9161-e9e13bb659f1"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""41af9302-ee73-4e94-850b-a042d4aba79a"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Mode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -240,6 +271,7 @@ public partial class @UFOControls: IInputActionCollection2, IDisposable
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
         m_Player_Place = m_Player.FindAction("Place", throwIfNotFound: true);
+        m_Player_Mode = m_Player.FindAction("Mode", throwIfNotFound: true);
     }
 
     ~@UFOControls()
@@ -311,6 +343,7 @@ public partial class @UFOControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Rotate;
     private readonly InputAction m_Player_Drop;
     private readonly InputAction m_Player_Place;
+    private readonly InputAction m_Player_Mode;
     public struct PlayerActions
     {
         private @UFOControls m_Wrapper;
@@ -320,6 +353,7 @@ public partial class @UFOControls: IInputActionCollection2, IDisposable
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputAction @Drop => m_Wrapper.m_Player_Drop;
         public InputAction @Place => m_Wrapper.m_Player_Place;
+        public InputAction @Mode => m_Wrapper.m_Player_Mode;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -344,6 +378,9 @@ public partial class @UFOControls: IInputActionCollection2, IDisposable
             @Place.started += instance.OnPlace;
             @Place.performed += instance.OnPlace;
             @Place.canceled += instance.OnPlace;
+            @Mode.started += instance.OnMode;
+            @Mode.performed += instance.OnMode;
+            @Mode.canceled += instance.OnMode;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -363,6 +400,9 @@ public partial class @UFOControls: IInputActionCollection2, IDisposable
             @Place.started -= instance.OnPlace;
             @Place.performed -= instance.OnPlace;
             @Place.canceled -= instance.OnPlace;
+            @Mode.started -= instance.OnMode;
+            @Mode.performed -= instance.OnMode;
+            @Mode.canceled -= instance.OnMode;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -387,5 +427,6 @@ public partial class @UFOControls: IInputActionCollection2, IDisposable
         void OnRotate(InputAction.CallbackContext context);
         void OnDrop(InputAction.CallbackContext context);
         void OnPlace(InputAction.CallbackContext context);
+        void OnMode(InputAction.CallbackContext context);
     }
 }
