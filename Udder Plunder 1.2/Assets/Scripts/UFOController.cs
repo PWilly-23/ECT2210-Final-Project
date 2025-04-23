@@ -100,15 +100,7 @@ public class UFOController : MonoBehaviour
 
         transform.position = nextPos;
 
-        // Update the BeamMagnet's ufoSpeed if the beam is active.
-        if (beamObject != null && beamObject.activeSelf)
-        {
-            BeamMagnet magnet = beamObject.GetComponent<BeamMagnet>();
-            if (magnet != null)
-            {
-                magnet.ufoSpeed = currentVelocity.magnitude;
-            }
-        }
+       
     }
 
     void ActivateBeam()
@@ -141,7 +133,7 @@ public class UFOController : MonoBehaviour
         meshCollider.convex = true;
         meshCollider.isTrigger = true;
 
-        beamObject.AddComponent<BeamMagnet>();
+        
     }
 
     Mesh GenerateBeamMesh()
