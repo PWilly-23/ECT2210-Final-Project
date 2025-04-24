@@ -1,14 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
-
-    public void MoveToScene(int sceneId)
+    public Button Play_Button;
+    public Button Quit_Button;
+    public void On_Play()
     {
-        Debug.Log("Fuck me in the ass MOVE");
-        SceneManager.LoadScene(sceneId);
+        SceneManager.LoadScene("PlayerMovement");
     }
+
+    public void On_Quit()
+    {
+        Debug.Log("Quit");
+        Application.Quit();
+    }
+
+    
 }
