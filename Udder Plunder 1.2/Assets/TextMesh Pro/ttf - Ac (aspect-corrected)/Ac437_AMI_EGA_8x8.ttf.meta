@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e5e7635fcd93635428a825a0a529ac72
+guid: 21f7a9791ab804739bae60f9d56ef878
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Ac437 Apricot 200L-2y
+  - Ac437 AMI EGA 8x8
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

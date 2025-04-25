@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 97ed52b0f361c90409f8f8345f7c2b87
+guid: 926c7091f2a5247028449e4236ced786
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Ac437 ACM VGA 8x8
+  - Ac437 Apricot Mono
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

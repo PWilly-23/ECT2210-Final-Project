@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 78a519e2983a77f44a56db8ff0cb58d5
+guid: f893180c549614c31bde2db8a12b0d25
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Ac437 IBM Conv
+  - Ac437 ACM VGA 8x16
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

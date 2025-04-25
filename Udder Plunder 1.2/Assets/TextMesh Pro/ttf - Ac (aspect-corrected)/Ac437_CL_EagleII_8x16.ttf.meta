@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: df648b27f57b2bf4e969c137225a2571
+guid: 65dd542c9cda34e7dbe6b82685ec1bc1
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Ac437 ATI 8x8-2y
+  - Ac437 CL EagleII 8x16
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
