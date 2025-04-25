@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8536a7a02315d364b81d58cf5ff552d0
+guid: 666597a7b0bffce479801687aa66e5dd
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Ac437 CompaqThin 8x16
+  - Ac437 IBM Conv-2x
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

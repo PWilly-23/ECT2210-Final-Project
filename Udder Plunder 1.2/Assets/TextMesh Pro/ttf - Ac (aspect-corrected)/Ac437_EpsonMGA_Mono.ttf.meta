@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 78a519e2983a77f44a56db8ff0cb58d5
+guid: ae9dc534b26c40741a57664a08520edb
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Ac437 IBM Conv
+  - Ac437 EpsonMGA Mono
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
