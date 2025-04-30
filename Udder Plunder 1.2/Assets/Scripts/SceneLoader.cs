@@ -36,5 +36,12 @@ public class SceneLoader : MonoBehaviour
         SettingCanvas.gameObject.SetActive(true);   
     }
 
+
+    public void On_Back_Settings()
+    {
+        MenuCanvas.gameObject.SetActive(true);
+        SettingCanvas.gameObject.SetActive(false);
+    }
+
     
 }
